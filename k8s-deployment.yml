@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: climate-change-analysis
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: climate-change-analysis
+  template:
+    metadata:
+      labels:
+        app: climate-change-analysis
+    spec:
+      containers:
+      - name: app
+        image: climate-change-analysis:latest
+        ports:
+        - containerPort: 8050
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: climate-change-analysis
+spec:
+  selector:
+    app: climate-change-analysis
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8050
+  type: LoadBalancer
